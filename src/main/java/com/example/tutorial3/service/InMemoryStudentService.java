@@ -8,15 +8,14 @@ import com.example.tutorial3.model.StudentModel;
 
 public class InMemoryStudentService implements StudentService {
 	private static List<StudentModel> studentList = new ArrayList<StudentModel>();
-	
+
 	@Override
 	public StudentModel selectStudent(String npm) {
-		if(studentList.isEmpty()) {
+		if (studentList.isEmpty()) {
 			return null;
-		}
-		else {
-			for(int i = 0; i < studentList.size(); i++) {
-				if(npm.equalsIgnoreCase(studentList.get(i).getNpm())) {
+		} else {
+			for (int i = 0; i < studentList.size(); i++) {
+				if (npm.equalsIgnoreCase(studentList.get(i).getNpm())) {
 					return studentList.get(i);
 				}
 			}
@@ -35,13 +34,13 @@ public class InMemoryStudentService implements StudentService {
 	}
 
 	@Override
-	public void deleteStudent(Optional<String> npm) {
-		for(int i = 0; i < studentList.size(); i++) {
-			if(npm.equals(studentList.get(i).getNpm())) {
+	public void deleteStudent(String npm) {
+		for(int i=0; i<studentList.size(); i++) {
+			if(npm.equalsIgnoreCase(studentList.get(i).getNpm())){
 				studentList.remove(i);
 				break;
 			}
 		}
 	}
-	
+
 }

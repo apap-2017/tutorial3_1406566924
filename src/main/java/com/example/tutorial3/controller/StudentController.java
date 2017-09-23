@@ -24,55 +24,57 @@ public class StudentController {
 	@RequestMapping("/student/add")
 	public String add(@RequestParam(value = "npm", required = true) String npm,
 			@RequestParam(value = "name", required = true) String name,
-			@RequestParam(value = "gpa", required = true) double gpa) {	
+			@RequestParam(value = "gpa", required = true) double gpa) {
 		StudentModel student = new StudentModel(name, npm, gpa);
 		studentService.addStudent(student);
 		return "add";
 	}
-	
+
 	@RequestMapping("/student/view")
-	public String view(@RequestParam(value="npm", required=false) String npm, Model model) {
+	public String view(@RequestParam(value = "npm", required = false) String npm, Model model) {
 		StudentModel student = studentService.selectStudent(npm);
-		
-		if(student == null) {
+
+		if (student == null) {
 			return "empty-data";
-		}
-		else {
+		} else {
 			model.addAttribute("student", student);
 			return "view";
 		}
 	}
-	
+
 	@RequestMapping("/student/viewall")
 	public String viewAll(Model model) {
 		List<StudentModel> students = studentService.selectAllStudent();
 		model.addAttribute("students", students);
 		return "viewall";
 	}
-	
+
 	@RequestMapping("/student/view/{npm}")
 	public String viewStudent(Model model, @PathVariable String npm) {
 		StudentModel student = studentService.selectStudent(npm);
-		
-		if(student == null) {
+
+		if (student == null) {
 			return "empty-data";
-		}
-		else {
+		} else {
 			model.addAttribute("student", student);
 			return "view";
 		}
 	}
-	
+
+//	@RequestMapping("/student/delete")
+//	public String delete() {
+//		return "delete-cancel";
+//	}
+
 	@RequestMapping(value={"/student/delete", "/student/delete/{npm}"})
 	public String delete(@PathVariable Optional<String> npm) {
 		if(npm.isPresent()) {
 			StudentModel student = studentService.selectStudent(npm.get());
 			
-			if(student == null) {
+			if (student == null) {
 				return "delete-cancel";
-			}
-			else {
-				studentService.deleteStudent(npm);
+			} else {
+				studentService.deleteStudent(npm.get());
 				return "delete";
 			}
 		}
